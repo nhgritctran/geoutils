@@ -23,7 +23,7 @@ Tools for mapping zip codes and elevation. In general, these tools include optio
 Tools for visualizing geospatial data. Currently supports US map at coordinate, county and state levels.
 
 ## imputation
-It is common that there could be missing data in geospatial data. Geocoding services also do not guarantee to work all the time. This library uses data from the nearest known location for imputation. For that reason, it works best when missing data proportion is small (~20% or less) and it also depends on the coverage of known data.
+It is common that there could be missing data in geospatial data. Geocoding services also do not guarantee to work all the time. This library uses data from the nearest known location for imputation. For that reason, it works best when missing data proportion is small and it the coverage of known data is high.
 
 # Dependencies
 ## geocoding
