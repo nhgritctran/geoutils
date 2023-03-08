@@ -1,4 +1,4 @@
-# geoutils - Tools developed to work with geospatial data.
+# geoutils - Tools developed to work with geospatial data
 
 # Description
 Collection of tools developed for geocoding related tasks such as mapping zip code, elevation, e.g. It is expected that this repository would keep growing as more tools added for different types of geospatial data.
