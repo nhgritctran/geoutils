@@ -183,7 +183,7 @@ class ReverseGeocoding:
             if not zip_column:
                 df.loc[:, "_zip"] = np.nan
             else:
-                df.loc[:, "_zip"] = df[zip_column].copy()
+                df["_zip"] = df[zip_column]
         zip_failed_count = len(df.loc[df["_zip"].isna()])
 
         print("##########")
@@ -193,7 +193,7 @@ class ReverseGeocoding:
         print(f"Zip mapping {zip_failed_count} remaining stations with Google Geocoding")
 
         # data processing
-        df.loc[:, "gzip"] = df["_zip"].copy()
+        df["gzip"] = df["_zip"]
         ids = df.index[df["gzip"].isna()].tolist()
         for i in tqdm(ids):
             lat = df.iloc[i, df.columns.get_loc("latitude")]
