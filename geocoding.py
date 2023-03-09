@@ -149,7 +149,7 @@ class ReverseGeocoding:
 
         return df
 
-    def get_zip(self, df, use_geopy=True):
+    def get_zip(self, df, zip_column=None, use_geopy=True):
         """
         Used to get zip code for a dataframe containing "latitude" and "longitude" columns
         :param df: dataframe containing "latitude" and "longitude" columns
@@ -158,6 +158,9 @@ class ReverseGeocoding:
         """
 
         total_count = len(df)
+
+        if not zip_column:
+            col_name = "zip"
 
         # GeoPy
         if use_geopy:
@@ -170,12 +173,16 @@ class ReverseGeocoding:
                 # print(i.raw["address"])
                 try:
                     zip_list.append(i.raw["address"]["postcode"])
-                except:
+                except Exception as e:
+                    print(f"{type(e)}: {e}")
                     zip_list.append(np.nan)
-            df.loc[:, "geopy_zip"] = zip_list.copy()
-            df.loc[:, "zip"] = zip_list.copy()
+            df.loc[:, f"geopy_{col_name}"] = zip_list.copy()
+            df.loc[:, "_zip"] = zip_list.copy()
         else:
-            df.loc[:, "zip"] = np.nan
+            if not zip_column:
+                df.loc[:, "_zip"] = np.nan
+            else:
+                df.loc[:, "_zip"] = df[zip_column].copy()
         zip_failed_count = len(df.loc[df["zip"].isna()])
 
         print("##########")
@@ -185,7 +192,7 @@ class ReverseGeocoding:
         print(f"Zip mapping {zip_failed_count} remaining stations with Google Geocoding")
 
         # data processing
-        df.loc[:, "gzip"] = df["zip"].copy()
+        df.loc[:, "gzip"] = df["_zip"].copy()
         ids = df.index[df["gzip"].isna()].tolist()
         for i in tqdm(ids):
             lat = df.iloc[i, df.columns.get_loc("latitude")]
@@ -193,7 +200,7 @@ class ReverseGeocoding:
             df.iloc[i, df.columns.get_loc("gzip")] = self.geo2zip(lat, lon)
         df.loc[~df["gzip"].isna(), "zip3"] = df["gzip"].str[:3]
         df.loc[df["zip3"].isna(), "zip3"] = np.nan
-        df.drop(columns="zip", inplace=True)
+        df.drop(columns="_zip", inplace=True)
 
         # report
         gzip_failed_count = len(df.loc[df["gzip"].isna()])
