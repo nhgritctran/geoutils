@@ -184,7 +184,7 @@ class ReverseGeocoding:
                 df.loc[:, "_zip"] = np.nan
             else:
                 df.loc[:, "_zip"] = df[zip_column].copy()
-        zip_failed_count = len(df.loc[df["zip"].isna()])
+        zip_failed_count = len(df.loc[df["_zip"].isna()])
 
         print("##########")
         print()
