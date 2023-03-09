@@ -153,6 +153,7 @@ class ReverseGeocoding:
         """
         Used to get zip code for a dataframe containing "latitude" and "longitude" columns
         :param df: dataframe containing "latitude" and "longitude" columns
+        :param zip_column: name of existing zip code column, if any
         :param use_geopy: defaults to True - use GeoPy then Google API, else use only Google API
         :return: dataframe with columns "geopy_zip" (if use_geopy), "gzip" and "zip3"
         """
