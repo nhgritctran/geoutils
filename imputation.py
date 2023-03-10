@@ -74,7 +74,14 @@ class GeoImputation:
                 ((~ref_df[col2impute].isna()) &
                  (ref_df[col2impute] != "None")), col2impute
             ].unique()
-            new_val = np.mean(new_val)  # this is to catch cases where 2 or more values returned
+
+            # catch multiple new_val
+            if len(new_val) > 1 and type(new_val[0]) is not str:
+                new_val = np.mean(new_val)
+            elif len(new_val) > 1 and type(new_val[0]) is str:
+                new_val = max(new_val, key=new_val.count)
+
+            # assign best value
             df.iloc[i, df.columns.get_loc(col2impute)] = new_val
             df.iat[i, df.columns.get_loc("coordinate")] = new_loc
 
