@@ -220,9 +220,9 @@ class ReverseGeocoding:
     def get_elevation(self, df, methods="epqs"):
         """
         generate elevation from latitude and longitude data
-        :param df: input dataframe, must have "latitude" and "longitude" columns
+        :param df: input dataframe, must have "latitude", "longitude" and "elevation" columns
         :param methods: accepts "eqps" (free) or "google" (paid)
-        :return: dataframe with column "elevation" added
+        :return: dataframe with column "elevation" mapped
         """
 
         if methods == "epqs":
